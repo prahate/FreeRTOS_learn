@@ -49,37 +49,9 @@
 	licensing and training services.
 */
 
-/**
- * Creates all the demo application tasks and co-routines, then starts the
- * scheduler.
- *
- * Main. c also creates a task called "Print".  This only executes every
- * five seconds but has the highest priority so is guaranteed to get
- * processor time.  Its main function is to check that all the other tasks
- * are still operational.  Nearly all the tasks in the demo application
- * maintain a unique count that is incremented each time the task successfully
- * completes its function.  Should any error occur within the task the count is
- * permanently halted.  The print task checks the count of each task to ensure
- * it has changed since the last time the print task executed.  If any count is
- * found not to have changed the print task displays an appropriate message.
- * If all the tasks are still incrementing their unique counts the print task
- * displays an "OK" message.
- *
- * The LED flash tasks do not maintain a count as they already provide visual
- * feedback of their status.
- *
- * The print task blocks on the queue into which messages that require
- * displaying are posted.  It will therefore only block for the full 5 seconds
- * if no messages are posted onto the queue.
- *
- * Main. c also provides a demonstration of how the trace visualisation utility
- * can be used, and how the scheduler can be stopped.
- *
- * \page MainC main.c
- * \ingroup DemoFiles
- * <HR>
- */
-
+/*
+	Main.c creates a simple Hello World Task that prints hello world.
+*/
 /* System headers. */
 #include <stdio.h>
 #include <time.h>
