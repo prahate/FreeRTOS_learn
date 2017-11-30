@@ -100,30 +100,6 @@
 #include "croutine.h"
 #include "partest.h"
 
-/* Demo file headers. */
-#include "BlockQ.h"
-#include "PollQ.h"
-#include "death.h"
-#include "crflash.h"
-#include "flop.h"
-#include "print.h"
-#include "fileIO.h"
-#include "semtest.h"
-#include "integer.h"
-#include "dynamic.h"
-#include "mevents.h"
-#include "crhook.h"
-#include "blocktim.h"
-#include "GenQTest.h"
-#include "QPeek.h"
-#include "countsem.h"
-#include "recmutex.h"
-
-#include "AsyncIO/AsyncIO.h"
-#include "AsyncIO/AsyncIOSocket.h"
-#include "AsyncIO/PosixMessageQueueIPC.h"
-#include "AsyncIO/AsyncIOSerial.h"
-
 /*-----------------------------------------------------------*/
 
 xQueueHandle GlobalQueueHandle;	//defining global variable as refrence to queue
@@ -133,6 +109,10 @@ void sender_task(void* p)
 {
     int i=0;
     while(1) {
+	/*
+	  xQueueSend(QueueHandle, *dataToSend, timeout)
+	  will send data into the queue and wait for timeout if queue is full before sending data again to queue
+	*/
         if ( ! xQueueSend(GlobalQueueHandle, &i, 1000)) {
 		printf("Failed to send to queue\n");
 	}
@@ -146,13 +126,17 @@ void receiver_task(void* p)
 {
     int rx_int=0;
     while(1) {
+	/* 
+	  xQueueReceive(QueueHandle, *buffer, timetowait) 
+	  will wait for data to be put in queue for the time specified, if it didn't get any data then will go to sleep
+	*/
 	if (xQueueReceive(GlobalQueueHandle, &rx_int, 1000)) {
 		printf("Received %d\n", rx_int);
 	}
 	else {
 		printf("Receive Failed\n");
 	}
-        vTaskDelay(1000);
+       // vTaskDelay(1000);
     }
 }
 int main()
